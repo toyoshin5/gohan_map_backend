@@ -11,12 +11,6 @@ app = FastAPI()
 
 
 @app.get("/")
-def read_root():
+def read_root() -> dict[str, str]:
     logger.debug("request: /")
     return {"Hello": "World"}
-
-
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    logger.debug(f"request: /items/{item_id}")
-    return {"item_id": item_id, "q": q}

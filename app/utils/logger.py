@@ -1,10 +1,11 @@
 from logging import config
 
+
 debug_logger_config = {
     "version": 1,
     "formatters": {
         "simple": {
-            "format": '[%(levelname)s] %(asctime)s - %(filename)s:%(lineno)ss  - %(message)s'
+            "format": "[%(levelname)s] %(asctime)s - %(filename)s:%(lineno)ss  - %(message)s"
         }
     },
     "handlers": {
@@ -22,13 +23,9 @@ debug_logger_config = {
             "propagate": False,
         },
     },
-
-    "root": {
-        "level": "INFO",
-        "handlers": []
-    }
+    "root": {"level": "INFO", "handlers": []},
 }
 
 
-def init_logger():
+def init_logger() -> None:
     config.dictConfig(debug_logger_config)
