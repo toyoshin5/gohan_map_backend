@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+  db:
+    container_name: postgres
+    image: postgres:16
+    restart: always
+    ports:
+      - 5432:5432
+    volumes:
+      - db_store:/var/lib/postgresql/data
+    environment:
+      # 開発環境用の設定項目
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+volumes:
+  db_store:
