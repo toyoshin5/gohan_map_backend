@@ -1,7 +1,6 @@
 from sqlalchemy import Column, Integer, String
 
-from app.setting import Engine
-from app.setting import Base
+from app.db import Base
 
 
 class AnonymousPost(Base):
@@ -14,7 +13,3 @@ class AnonymousPost(Base):
 
     id = Column("id", Integer, primary_key=True, autoincrement=True)
     userId = Column("user_id", String(200))
-
-
-if __name__ == "__main__":
-    Base.metadata.create_all(bind=Engine)
