@@ -1,6 +1,5 @@
 from logging import config
 
-
 debug_logger_config = {
     "version": 1,
     "formatters": {

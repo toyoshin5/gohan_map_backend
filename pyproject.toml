@@ -14,12 +14,16 @@ poethepoet = "^0.24.1"
 [tool.poetry.group.dev.dependencies]
 black = "^23.9.1"
 mypy = "^1.6.0"
+isort = "^5.12.0"
 
 
 [tool.poe.tasks]
 serve = "uvicorn app.main:app --reload"
-format = "black ."
+format = "isort . && black ."
 type = "mypy app/"
+
+[tool.isort]
+profile = "black"
 
 [tool.mypy]
 strict = true

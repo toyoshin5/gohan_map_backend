@@ -1,5 +1,6 @@
-from fastapi import FastAPI
 import logging
+
+from fastapi import FastAPI
 
 from app.utils.logger import init_logger
 
