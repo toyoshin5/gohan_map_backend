@@ -31,6 +31,7 @@ profile = "black"
 
 [tool.mypy]
 strict = true
+plugins = "sqlalchemy.ext.mypy.plugin"
 
 [build-system]
 requires = ["poetry-core"]

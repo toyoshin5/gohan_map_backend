@@ -2,7 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import Session, sessionmaker
 
 load_dotenv(verbose=True)  # .envの読み込み
 
@@ -13,5 +13,5 @@ Engine = create_engine(DATABASE_URL, echo=False)
 SessionLocal = sessionmaker(autocommit=False, autoflush=True, bind=Engine)
 
 
-def get_db():
+def get_db() -> Session:
     return SessionLocal()
