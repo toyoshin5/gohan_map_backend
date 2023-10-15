@@ -7,7 +7,11 @@ Poetry
 
 ### 起動方法(開発環境)
 
-```
+- .env.sample を.env にコピーする
+
+```bash
+docker compose -f docker-compose.local.yml up -d
+
 poetry install
 poetry shell
 poe serve
