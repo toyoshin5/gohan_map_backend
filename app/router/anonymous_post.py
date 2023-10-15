@@ -1,4 +1,5 @@
 import logging
+from typing import Any
 
 from fastapi import APIRouter, Depends
 from fastapi.security import HTTPAuthorizationCredentials
@@ -13,10 +14,10 @@ logger = logging.getLogger("gohan_map")
 
 @router.get("/api/anonymous-post", response_model=list[post_schema.AnonymousPost])
 async def list_anonymous_post(
-    cred: HTTPAuthorizationCredentials = Depends(get_current_user),
+    cred: dict[str, Any] = Depends(get_current_user),
 ) -> list[post_schema.AnonymousPost]:
     logger.debug("request: GET /api/anonymous-post")
-    uid: str = cred.get("uid")
+    uid: str = cred["uid"]
     return [
         post_schema.AnonymousPost(
             id=1,

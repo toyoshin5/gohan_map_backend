@@ -1,3 +1,5 @@
+from typing import Any
+
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from firebase_admin import auth
@@ -6,7 +8,7 @@ from firebase_admin import auth
 # 認証関数の定義
 def get_current_user(
     cred: HTTPAuthorizationCredentials = Depends(HTTPBearer()),
-) -> HTTPAuthorizationCredentials:
+) -> dict[str, Any]:
     if not cred:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -14,7 +16,7 @@ def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
     try:
-        cred = auth.verify_id_token(cred.credentials)
+        verified_cred: dict[str, Any] = auth.verify_id_token(cred.credentials)
     except auth.ExpiredIdTokenError as e:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -27,4 +29,4 @@ def get_current_user(
             detail="Invalid authentication credentials",
             headers={"WWW-Authenticate": "Bearer"},
         )
-    return cred
+    return verified_cred
