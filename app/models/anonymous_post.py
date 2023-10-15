@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Integer, Numeric, String
+from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import relationship
 
 from app.db import Base
@@ -15,11 +15,22 @@ class AnonymousPost(Base):
     __table_args__ = {"comment": "Swipe UIに使用する匿名投稿用のテーブル"}
 
     id = Column("id", Integer, primary_key=True, autoincrement=True)
-    userId = Column("user_id", Integer)
-    timelineId = Column("timeline_id", Integer)
-    googleMapShopId = Column("google_map_shop_id", String(200))
-    star = Column("star", Numeric(2, 1))
-    anonymousPostImages = relationship("anonymous_post_image")
+    userId = Column("user_id", String(200), nullable=False)
+    timelineId = Column("timeline_id", Integer, nullable=False)
+    googleMapShopId = Column(
+        "google_map_shop_id",
+        String(200),
+        ForeignKey(
+            "google_map_shop.google_map_shop_id", onupdate="CASCADE", ondelete="CASCADE"
+        ),
+        nullable=False,
+    )
+    star = Column(
+        "star",
+        Float(),
+        nullable=False,
+    )
+    anonymousPostImages = relationship("AnonymousPost")
 
     createdAt = Column("created_at", DateTime, default=datetime.now(), nullable=False)
     updatedAt = Column(

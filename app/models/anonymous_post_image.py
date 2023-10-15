@@ -5,7 +5,7 @@ from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
 from app.db import Base
 
 
-class AnonymousPost(Base):
+class AnonymousPostImage(Base):
     """
     匿名投稿の画像モデル
     """
@@ -18,8 +18,13 @@ class AnonymousPost(Base):
         "anonymous_post_id",
         Integer,
         ForeignKey("anonymous_post.id", onupdate="CASCADE", ondelete="CASCADE"),
+        nullable=False,
     )
-    fileName = Column("file_name", String(200))
+    fileName = Column(
+        "file_name",
+        String(200),
+        nullable=False,
+    )
 
     createdAt = Column("created_at", DateTime, default=datetime.now(), nullable=False)
     updatedAt = Column(
