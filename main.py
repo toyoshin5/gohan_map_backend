@@ -11,6 +11,5 @@ init_logger()
 firebase_admin.initialize_app(credentials.Certificate("./firebaseAdminKey.json"))
 
 app = FastAPI()
-session = get_db()
 
 app.include_router(anonymous_post.router)
