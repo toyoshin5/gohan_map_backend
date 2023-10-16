@@ -1,6 +1,3 @@
-import logging
-from typing import Any
-
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
 
@@ -24,20 +21,12 @@ async def list_anonymous_post(
     logger.debug("request: GET /api/anonymous-post")
     uid = cred["uid"]
 
-    posts = anonymous_post.fetch_anonymous_post_by_uid(db, uid)
+    postModelList = anonymous_post.fetch_anonymous_post_by_uid(db, uid)
+    postSchemaList: list[post_schema.AnonymousPost] = list(
+        map(lambda x: post_schema.AnonymousPost.from_model(x), postModelList)
+    )
 
-    return [
-        post_schema.AnonymousPost(
-            id=1,
-            userId=uid,
-            googleMapShopId=uid,
-            timelineId=1,
-            star=1,
-            imageURLList=["http://example.com"],
-            createdAt="",
-            updatedAt="",
-        )
-    ]
+    return postSchemaList
 
 
 @router.post("/api/anonymous-post")
