@@ -1,7 +1,3 @@
-import logging
-
-from sqlalchemy import select
-from sqlalchemy.engine import Result
 from sqlalchemy.orm import Session
 
 from app.models.anonymous_post import AnonymousPost

@@ -31,8 +31,8 @@ class AnonymousPost(Base):
         Float(),
         nullable=False,
     )
-    anonymousPostImages: Relationship[AnonymousPostImage] = relationship(
-        "AnonymousPostImage"
+    anonymousPostImages: Relationship[list[AnonymousPostImage]] = relationship(
+        "AnonymousPostImage", backref="anonymousPost"
     )
 
     createdAt = Column("created_at", DateTime, default=datetime.now(), nullable=False)

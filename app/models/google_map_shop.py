@@ -29,7 +29,7 @@ class GoogleMapShop(Base):
         Float(),
         nullable=False,
     )
-    anonymousPost: Relationship[AnonymousPost] = relationship("AnonymousPost")
+    anonymousPost: Relationship[list[AnonymousPost]] = relationship("AnonymousPost")
 
     createdAt = Column("created_at", DateTime, default=datetime.now(), nullable=False)
     updatedAt = Column(
