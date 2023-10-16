@@ -1,9 +1,10 @@
 from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Relationship, relationship
 
 from app.db import Base
+from app.models.anonymous_post_image import AnonymousPostImage
 
 
 class AnonymousPost(Base):
@@ -30,7 +31,9 @@ class AnonymousPost(Base):
         Float(),
         nullable=False,
     )
-    anonymousPostImages = relationship("AnonymousPost")
+    anonymousPostImages: Relationship[AnonymousPostImage] = relationship(
+        "AnonymousPostImage"
+    )
 
     createdAt = Column("created_at", DateTime, default=datetime.now(), nullable=False)
     updatedAt = Column(

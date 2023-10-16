@@ -1,9 +1,10 @@
 from datetime import datetime
 
 from sqlalchemy import Column, DateTime, Float, Integer, String
-from sqlalchemy.orm import relationship
+from sqlalchemy.orm import Relationship, relationship
 
 from app.db import Base
+from app.models.anonymous_post import AnonymousPost
 
 
 class GoogleMapShop(Base):
@@ -28,7 +29,7 @@ class GoogleMapShop(Base):
         Float(),
         nullable=False,
     )
-    anonymousPost = relationship("AnonymousPost")
+    anonymousPost: Relationship[AnonymousPost] = relationship("AnonymousPost")
 
     createdAt = Column("created_at", DateTime, default=datetime.now(), nullable=False)
     updatedAt = Column(
