@@ -1,30 +1,23 @@
-from logging import config
-
-debug_logger_config = {
-    "version": 1,
-    "formatters": {
-        "simple": {
-            "format": "[%(levelname)s] %(asctime)s - %(filename)s:%(lineno)ss  - %(message)s"
-        }
-    },
-    "handlers": {
-        "consoleHandler": {
-            "class": "logging.StreamHandler",
-            "level": "DEBUG",
-            "formatter": "simple",
-            "stream": "ext://sys.stdout",
-        }
-    },
-    "loggers": {
-        "gohan_map": {
-            "level": "DEBUG",
-            "handlers": ["consoleHandler"],
-            "propagate": False,
-        },
-    },
-    "root": {"level": "INFO", "handlers": []},
-}
+from logging import DEBUG, INFO, Formatter, Handler, Logger, StreamHandler, getLogger
 
 
-def init_logger() -> None:
-    config.dictConfig(debug_logger_config)
+def get_logger() -> Logger:
+    logger = getLogger("gohan_map")
+    logger = _set_handler(logger, StreamHandler(), True)
+    logger.setLevel(DEBUG)
+    logger.propagate = False
+    return logger
+
+
+def _set_handler(logger: Logger, handler: Handler, verbose: bool) -> Logger:
+    if verbose:
+        handler.setLevel(DEBUG)
+    else:
+        handler.setLevel(INFO)
+    handler.setFormatter(
+        Formatter(
+            "[%(levelname)s] %(asctime)s - %(filename)s:%(lineno)ss  - %(message)s"
+        )
+    )
+    logger.addHandler(handler)
+    return logger

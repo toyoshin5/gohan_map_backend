@@ -9,10 +9,11 @@ from app.crud import anonymous_post
 from app.db import get_db
 from app.dependency import get_current_user
 from app.types.fireabase import UserInfo
+from app.utils.logger import get_logger
 
 router = APIRouter()
 
-logger = logging.getLogger("gohan_map")
+logger = get_logger()
 
 
 @router.get("/api/anonymous-post", response_model=list[post_schema.AnonymousPost])
