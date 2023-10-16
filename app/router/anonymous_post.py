@@ -2,14 +2,13 @@ import logging
 from typing import Any
 
 from fastapi import APIRouter, Depends
-from fastapi.security import HTTPAuthorizationCredentials
-from firebase_admin.auth import UserInfo
 from sqlalchemy.orm import Session
 
 import app.schema.anonymous_post as post_schema
 from app.crud import anonymous_post
 from app.db import get_db
 from app.dependency import get_current_user
+from app.types.fireabase import UserInfo
 
 router = APIRouter()
 
@@ -22,7 +21,7 @@ async def list_anonymous_post(
     cred: UserInfo = Depends(get_current_user),
 ) -> list[post_schema.AnonymousPost]:
     logger.debug("request: GET /api/anonymous-post")
-    uid: str = cred["uid"]
+    uid = cred["uid"]
 
     posts = anonymous_post.fetch_anonymous_post_by_uid(db, uid)
 
