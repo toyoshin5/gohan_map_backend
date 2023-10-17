@@ -1,4 +1,5 @@
 from datetime import datetime
+from decimal import Decimal
 
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Relationship, relationship
@@ -15,10 +16,10 @@ class AnonymousPost(Base):
     __tablename__ = "anonymous_post"
     __table_args__ = {"comment": "Swipe UIに使用する匿名投稿用のテーブル"}
 
-    id = Column("id", Integer, primary_key=True, autoincrement=True)
-    userId = Column("user_id", String(200), nullable=False)
-    timelineId = Column("timeline_id", Integer, nullable=False)
-    googleMapShopId = Column(
+    id: int = Column("id", Integer, primary_key=True, autoincrement=True)
+    userId: str = Column("user_id", String(200), nullable=False)
+    timelineId: int = Column("timeline_id", Integer, nullable=False)
+    googleMapShopId: str = Column(
         "google_map_shop_id",
         String(200),
         ForeignKey(
@@ -26,7 +27,7 @@ class AnonymousPost(Base):
         ),
         nullable=False,
     )
-    star = Column(
+    star: float = Column(  # type: ignore
         "star",
         Float(),
         nullable=False,
@@ -35,8 +36,10 @@ class AnonymousPost(Base):
         "AnonymousPostImage", backref="anonymousPost"
     )
 
-    createdAt = Column("created_at", DateTime, default=datetime.now(), nullable=False)
-    updatedAt = Column(
+    createdAt: datetime = Column(
+        "created_at", DateTime, default=datetime.now(), nullable=False
+    )
+    updatedAt: datetime = Column(
         "updated_at",
         DateTime,
         default=datetime.now(),
