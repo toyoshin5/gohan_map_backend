@@ -15,24 +15,27 @@ class GoogleMapShop(Base):
     __tablename__ = "google_map_shop"
     __table_args__ = {"comment": "GoogleMapのshopIdに対応した情報を、APIを叩く回数を減らすために保存する。"}
 
-    id = Column("id", Integer, primary_key=True, autoincrement=True)
-    googleMapShopId = Column(
+    id: int = Column("id", Integer, primary_key=True, autoincrement=True)
+    googleMapShopId: str = Column(
         "google_map_shop_id", String(200), nullable=False, unique=True
     )
-    latitude = Column(
+    # float型が認識されないので、型チェックを無視する
+    latitude: float = Column(  # type: ignore
         "latitude",
         Float(),
         nullable=False,
     )
-    longitude = Column(
+    longitude: float = Column(  # type: ignore
         "longitude",
         Float(),
         nullable=False,
     )
-    anonymousPost: Relationship[AnonymousPost] = relationship("AnonymousPost")
+    anonymousPost: Relationship[list[AnonymousPost]] = relationship("AnonymousPost")
 
-    createdAt = Column("created_at", DateTime, default=datetime.now(), nullable=False)
-    updatedAt = Column(
+    createdAt: datetime = Column(
+        "created_at", DateTime, default=datetime.now(), nullable=False
+    )
+    updatedAt: datetime = Column(
         "updated_at",
         DateTime,
         default=datetime.now(),

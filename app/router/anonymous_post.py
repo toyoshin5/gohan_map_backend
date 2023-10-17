@@ -1,32 +1,32 @@
-import logging
-from typing import Any
-
 from fastapi import APIRouter, Depends
-from fastapi.security import HTTPAuthorizationCredentials
+from sqlalchemy.orm import Session
 
 import app.schema.anonymous_post as post_schema
+from app.crud import anonymous_post
+from app.db import get_db
 from app.dependency import get_current_user
+from app.types.fireabase import UserInfo
+from app.utils.logger import get_logger
 
 router = APIRouter()
 
-logger = logging.getLogger("gohan_map")
+logger = get_logger()
 
 
 @router.get("/api/anonymous-post", response_model=list[post_schema.AnonymousPost])
 async def list_anonymous_post(
-    cred: dict[str, Any] = Depends(get_current_user),
+    db: Session = Depends(get_db),
+    cred: UserInfo = Depends(get_current_user),
 ) -> list[post_schema.AnonymousPost]:
     logger.debug("request: GET /api/anonymous-post")
-    uid: str = cred["uid"]
-    return [
-        post_schema.AnonymousPost(
-            id=1,
-            googleMapShopId=uid,
-            timelineId=1,
-            star=1,
-            imageURLList=["http://example.com"],
-        )
-    ]
+    uid = cred["uid"]
+
+    postModelList = anonymous_post.fetch_anonymous_post_by_uid(db, uid)
+    postSchemaList: list[post_schema.AnonymousPost] = list(
+        map(lambda x: post_schema.AnonymousPost.from_model(x), postModelList)
+    )
+
+    return postSchemaList
 
 
 @router.post("/api/anonymous-post")
