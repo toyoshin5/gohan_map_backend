@@ -1,8 +1,10 @@
+from __future__ import annotations
+
 from datetime import datetime
 from typing import TYPE_CHECKING
 
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
-from sqlalchemy.orm import Relationship, relationship
+from sqlalchemy.orm import Mapped, Relationship, relationship
 
 from app.db.base_class import Base
 
@@ -35,10 +37,10 @@ class AnonymousPost(Base):
         Float(),
         nullable=False,
     )
-    anonymousPostImages: Relationship[list["AnonymousPostImage"]] = relationship(
+    anonymousPostImages: Mapped[list[AnonymousPostImage]] = relationship(
         "AnonymousPostImage", back_populates="anonymousPost"
     )
-    googleMapShop: Relationship["GoogleMapShop"] = relationship(
+    googleMapShop: Mapped[GoogleMapShop] = relationship(
         "GoogleMapShop", back_populates="anonymousPosts"
     )
 
