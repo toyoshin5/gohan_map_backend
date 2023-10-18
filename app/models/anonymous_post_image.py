@@ -1,8 +1,13 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Column, DateTime, ForeignKey, Integer, String
+from sqlalchemy.orm import Relationship, relationship
 
 from app.db import Base
+
+if TYPE_CHECKING:
+    from app.models.anonymous_post import AnonymousPost
 
 
 class AnonymousPostImage(Base):
@@ -24,6 +29,10 @@ class AnonymousPostImage(Base):
         "file_name",
         String(200),
         nullable=False,
+    )
+
+    anonymousPost: Relationship["AnonymousPost"] = relationship(
+        "AnonymousPost", back_populates="anonymousPostImages"
     )
 
     createdAt: datetime = Column(

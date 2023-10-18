@@ -1,10 +1,13 @@
 from datetime import datetime
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Column, DateTime, Float, Integer, String
 from sqlalchemy.orm import Relationship, relationship
 
 from app.db import Base
-from app.models.anonymous_post import AnonymousPost
+
+if TYPE_CHECKING:
+    from app.models.anonymous_post import AnonymousPost
 
 
 class GoogleMapShop(Base):
@@ -30,7 +33,9 @@ class GoogleMapShop(Base):
         Float(),
         nullable=False,
     )
-    anonymousPost: Relationship[list[AnonymousPost]] = relationship("AnonymousPost")
+    anonymousPosts: Relationship[list["AnonymousPost"]] = relationship(
+        "AnonymousPost", back_populates="googleMapShop"
+    )
 
     createdAt: datetime = Column(
         "created_at", DateTime, default=datetime.now(), nullable=False
