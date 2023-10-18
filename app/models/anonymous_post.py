@@ -1,10 +1,9 @@
 from datetime import datetime
-from decimal import Decimal
 
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
 from sqlalchemy.orm import Relationship, relationship
 
-from app.db import Base
+from app.db.base_class import Base
 from app.models.anonymous_post_image import AnonymousPostImage
 
 
