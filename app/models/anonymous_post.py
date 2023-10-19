@@ -1,11 +1,16 @@
+from __future__ import annotations
+
 from datetime import datetime
-from decimal import Decimal
+from typing import TYPE_CHECKING
 
 from sqlalchemy import Column, DateTime, Float, ForeignKey, Integer, String
-from sqlalchemy.orm import Relationship, relationship
+from sqlalchemy.orm import Mapped, Relationship, relationship
 
-from app.db import Base
-from app.models.anonymous_post_image import AnonymousPostImage
+from app.db.base_class import Base
+
+if TYPE_CHECKING:
+    from app.models.anonymous_post_image import AnonymousPostImage
+    from app.models.google_map_shop import GoogleMapShop
 
 
 class AnonymousPost(Base):
@@ -32,8 +37,11 @@ class AnonymousPost(Base):
         Float(),
         nullable=False,
     )
-    anonymousPostImages: Relationship[list[AnonymousPostImage]] = relationship(
-        "AnonymousPostImage", backref="anonymousPost"
+    anonymousPostImages: Mapped[list[AnonymousPostImage]] = relationship(
+        "AnonymousPostImage", back_populates="anonymousPost"
+    )
+    googleMapShop: Mapped[GoogleMapShop] = relationship(
+        "GoogleMapShop", back_populates="anonymousPosts"
     )
 
     createdAt: datetime = Column(
