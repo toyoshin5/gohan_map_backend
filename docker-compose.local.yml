@@ -1,6 +1,17 @@
 version: "3"
 
 services:
+  app:
+    build:
+      dockerfile: ./docker/fastapi/Dockerfile
+      context: .
+    command: "bash -c 'poetry install --no-root && poetry run uvicorn main:app --host 0.0.0.0 --reload'"
+    volumes:
+      - .:/src
+    ports:
+      - 8000:8000
+    depends_on:
+      - db
   db:
     container_name: postgres
     image: postgres:16
