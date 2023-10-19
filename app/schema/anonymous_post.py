@@ -15,6 +15,10 @@ class AnonymousPostCreate(BaseModel):
     imageList: list[UploadFile]
 
 
+class AnonymousPostDelete(BaseModel):
+    timelineId: int = Field(description="端末で保存されているタイムラインのID")
+
+
 Self = TypeVar("Self", bound="AnonymousPost")
 
 
